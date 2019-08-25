@@ -1,4 +1,3 @@
-// import multerConfig from '../../config/multer';
 import File from '../models/File';
 
 class FileController {
