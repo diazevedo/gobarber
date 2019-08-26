@@ -6,6 +6,7 @@ import FileController from './app/controllers/FileController';
 import checkTokenMD from './app/middlewares/jwt';
 import ProviderController from './app/controllers/ProviderController';
 import multerConfig from './config/multer';
+import AppointmentController from './app/controllers/AppointmentController';
 
 const routes = new Router();
 const upload = multer(multerConfig);
@@ -26,5 +27,6 @@ routes.use(checkTokenMD);
 routes.post('/files', upload.single('file'), FileController.store);
 routes.put('/users', UserController.update);
 routes.get('/providers', ProviderController.index);
+routes.post('/appointments', AppointmentController.store);
 
 export default routes;
