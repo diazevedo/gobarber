@@ -9,6 +9,7 @@ import multerConfig from './config/multer';
 import AppointmentController from './app/controllers/AppointmentController';
 import ScheduleProvider from './app/controllers/ScheduleProvider';
 import NotificationController from './app/controllers/NotificationController';
+import AvailabilityController from './app/controllers/AvailabilityController';
 
 const routes = new Router();
 const upload = multer(multerConfig);
@@ -33,6 +34,10 @@ routes.get('/providers', ProviderController.index);
 routes.post('/appointments', AppointmentController.store);
 routes.get('/appointments/', AppointmentController.index);
 routes.delete('/appointments/:id', AppointmentController.delete);
+routes.get(
+  '/appointments/:providerId/availabity/',
+  AvailabilityController.index
+);
 
 routes.get('/schedule/provider', ScheduleProvider.index);
 
