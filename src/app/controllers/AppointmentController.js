@@ -46,6 +46,12 @@ class AppointmentController {
       return res.status(400).json({ error: 'Error' });
 
     const { provider_id, date } = req.body;
+    if (provider_id === req.userId) {
+      return res
+        .status(401)
+        .json({ error: 'Users cannot schedule appointment with thems.' });
+    }
+
     const isProvider = await User.findOne({
       where: { id: provider_id, provider: true },
     });
