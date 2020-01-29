@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import * as Yup from 'yup';
 import User from '../models/User';
+import File from '../models/File';
 import authConfig from '../../config/auth';
 
 class SessionController {
@@ -19,6 +20,13 @@ class SessionController {
 
     const user = await User.findOne({
       where: { email },
+      include: [
+        {
+          model: File,
+          as: 'avatar',
+          attributes: ['id', 'path', 'url'],
+        },
+      ],
     });
 
     if (!user) return res.status(401).json({ error: 'User not found.' });
@@ -27,7 +35,7 @@ class SessionController {
     if (!passwordMatched)
       return res.status(401).json({ error: 'Invalid password.' });
 
-    const { id, name } = user;
+    const { id, name, avatar, provider } = user;
 
     /**
      * The jwt.sign needs
@@ -40,6 +48,8 @@ class SessionController {
         id,
         name,
         email,
+        avatar,
+        provider,
       },
       token: jwt.sign({ id }, authConfig.secret, {
         expiresIn: authConfig.expiresIn,

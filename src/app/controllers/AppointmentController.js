@@ -48,7 +48,7 @@ class AppointmentController {
     });
 
     if (!(await schema.isValid(req.body)))
-      return res.status(400).json({ error: 'Error' });
+      return res.status(400).json({ error: 'Data provided is not accepted.' });
 
     const { provider_id, date } = req.body;
     if (provider_id === req.userId) {

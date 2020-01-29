@@ -21,8 +21,17 @@ class ScheduleProvider {
       where: {
         provider_id: req.userId,
         cancelled_at: null,
-        date: { [Op.between]: [startOfDay(parseDate), endOfDay(parseDate)] },
+        date: {
+          [Op.between]: [startOfDay(parseDate), endOfDay(parseDate)],
+        },
       },
+      include: [
+        {
+          model: User,
+          as: 'user',
+          attributes: ['name'],
+        },
+      ],
       order: ['date'],
     });
 

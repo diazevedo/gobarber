@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 import User from '../models/User';
+import File from '../models/File';
 
 class UserController {
   async store(req, res) {
@@ -55,15 +56,16 @@ class UserController {
       return res.status(400).json({ error: 'Sorry, validation has failed.' });
 
     const { email, oldPassword } = req.body;
+
     const user = await User.findByPk(req.userId);
 
     /**
-     * Verified if the user wants to chenge their email so it we need to know
+     * Verified if the user wants to chenge their email so we need to know
      * if the new one is unique
      */
-    if (email !== user.email) {
+    if (email && email !== user.email) {
       const userExists = await User.findOne({
-        where: { email: req.body.email },
+        where: { email },
       });
 
       if (userExists)
@@ -75,14 +77,24 @@ class UserController {
     /**
      * Checking if the password is correct
      * Only if the oldPassword is informed that means that he wants to change password
-     *
      */
     if (oldPassword && !(await user.checkPassword(oldPassword)))
       return res.status(401).json({ error: 'Invalid password.' });
-
+    /*
+    const { id, name, avatar } = await User.findByPk(req.userId, {
+      include: [
+        {
+          model: File,
+          as: 'avatar',
+          attributes: ['id', 'path', 'url'],
+        },
+      ],
+    });
+*/
     const { id, name, provider } = await user.update(req.body);
 
-    return res.json({ id, name, email, provider });
+    // return res.json({ id, name, email, avatar });
+    return res.json({ id, name, email });
   }
 }
 
