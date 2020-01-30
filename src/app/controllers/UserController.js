@@ -80,8 +80,14 @@ class UserController {
      */
     if (oldPassword && !(await user.checkPassword(oldPassword)))
       return res.status(401).json({ error: 'Invalid password.' });
-    /*
-    const { id, name, avatar } = await User.findByPk(req.userId, {
+
+    /**
+     * To return user's avatar after updating
+     */
+
+    const { id, name, provider } = await user.update(req.body);
+
+    const { avatar } = await User.findByPk(req.userId, {
       include: [
         {
           model: File,
@@ -90,11 +96,8 @@ class UserController {
         },
       ],
     });
-*/
-    const { id, name, provider } = await user.update(req.body);
 
-    // return res.json({ id, name, email, avatar });
-    return res.json({ id, name, email });
+    return res.json({ id, name, email, provider, avatar });
   }
 }
 
