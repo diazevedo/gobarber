@@ -8,8 +8,8 @@ Clients can select the professional that they want to and professional can check
 1. Clone it.
 2. Navigate to the folder `cd gobarber-mobile`;
 3. Run `yarn` or `npm install`;
-4. Run `yarn || npm dev` to start the application 
-5/ Run `yarn || npm queue` to run the email queue
+4. Run `yarn || npm dev` to start the application
+5. Run `yarn || npm queue` to run the email queue
 
 You can have a look at the web and mobile versions.
 
