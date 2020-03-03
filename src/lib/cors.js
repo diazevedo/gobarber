@@ -1,4 +1,4 @@
-const whitelist = ['https://digobarber.netlify.com/'];
+const whitelist = ['https://digobarber.netlify.com'];
 const corsOptions = {
   origin(origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
