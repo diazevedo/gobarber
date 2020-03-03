@@ -10,14 +10,16 @@ class NotificationController {
       },
     });
 
-    if (!isProvider)
+    if (!isProvider) {
       return res
         .status(401)
         .json({ error: 'User must be a provider to check notifications.' });
+    }
 
     const notifications = await Notification.find({ user: req.userId })
       .sort('createdAt')
-      .limit(20);
+      .limit(40);
+    console.log(notifications);
     return res.json(notifications);
   }
 

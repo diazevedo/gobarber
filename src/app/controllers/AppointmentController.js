@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import { startOfHour, parseISO, isBefore, format, subHours } from 'date-fns';
-import pt from 'date-fns/locale/pt';
+import en from 'date-fns/locale/en-GB';
 
 import Appointment from '../models/Appointment';
 import User from '../models/User';
@@ -79,8 +79,9 @@ class AppointmentController {
       where: { provider_id, date: hourStart, cancelled_at: null },
     });
 
-    if (checkAvailitiby)
+    if (checkAvailitiby) {
       return res.status(401).json({ error: 'Date is not unavailable.' });
+    }
 
     const userAppointment = await Appointment.create({
       user_id: req.userId,
@@ -89,15 +90,17 @@ class AppointmentController {
     });
 
     const { name } = await User.findByPk(req.userId);
-    const formattedDate = format(hourStart, "dd 'de' MMMM', às 'H:mm'h'", {
-      locale: pt,
+    const formattedDate = format(hourStart, "dd MMMM' at 'H:mm'h'", {
+      locale: en,
     });
 
     /** Notify provider */
-    await Notification.create({
-      content: `Novo agendamento de ${name} para o dia ${formattedDate}`,
+    const not = await Notification.create({
+      content: `New appointment with ${name} on ${formattedDate}`,
       user: provider_id,
     });
+
+    console.log(not);
 
     return res.json(userAppointment);
   }
