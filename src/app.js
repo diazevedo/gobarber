@@ -22,33 +22,14 @@ class App {
   middlewares() {
     this.server.use(Sentry.Handlers.requestHandler());
 
-    /*
     const corsOrigin = {};
     if (process.env.NODE_ENV === 'production') {
       corsOrigin.origin = 'https://digobarber.netlify.com';
       corsOrigin.optionsSuccessStatus = 200;
     }
-    */
-
-    const whitelist = [
-      'https://digobarber.netlify.com',
-      'https://didevgobarber.netlify.com',
-    ];
-
-    const corsOptions = {
-      origin(origin, callback) {
-        if (whitelist.indexOf(origin) !== -1) {
-          callback(null, true);
-        } else {
-          callback(new Error('Not allowed by CORS'));
-        }
-      },
-    };
 
     if (process.env.NODE_ENV === 'production') {
-      this.server.use(cors(corsOptions));
-    } else {
-      this.server.use(cors());
+      this.server.use(cors(corsOrigin));
     }
 
     this.server.use(express.json());
