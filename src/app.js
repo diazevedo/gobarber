@@ -22,14 +22,15 @@ class App {
   middlewares() {
     this.server.use(Sentry.Handlers.requestHandler());
 
-    const corsOrigin = {};
     if (process.env.NODE_ENV === 'production') {
-      corsOrigin.origin = 'https://digobarber.netlify.com';
-      corsOrigin.optionsSuccessStatus = 200;
-    }
-
-    if (process.env.NODE_ENV === 'production') {
-      this.server.use(cors(corsOrigin));
+      this.server.use(
+        cors({
+          origin: 'https://digobarber.netlify.com',
+          optionsSuccessStatus: 200,
+        })
+      );
+    } else {
+      this.server.use(cors());
     }
 
     this.server.use(express.json());
