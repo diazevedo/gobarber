@@ -95,12 +95,10 @@ class AppointmentController {
     });
 
     /** Notify provider */
-    const not = await Notification.create({
+    await Notification.create({
       content: `New appointment with ${name} on ${formattedDate}`,
       user: provider_id,
     });
-
-    console.log(not);
 
     return res.json(userAppointment);
   }
