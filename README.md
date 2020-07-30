@@ -80,9 +80,6 @@ Now we need to create our database structure into Postgres.
 # Running migrations
 yarn sequelize db:migrate
 
-# Putting data into that, it comes with an administrator user
-yarn sequelize db:seed:all
-
 # Starting the application
 yarn dev
 
