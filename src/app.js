@@ -25,7 +25,7 @@ class App {
     if (process.env.NODE_ENV === 'production') {
       this.server.use(
         cors({
-          origin: 'https://digobarber.netlify.com',
+          origin: 'https://digobarber.netlify.app',
           optionsSuccessStatus: 200,
         })
       );
